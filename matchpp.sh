@@ -122,7 +122,7 @@ clout="./match.out"
 #     to reverse columns 1 and 2 in the output
 
 if [ -e $olist ]; then
-    grep ',Match,' $olist | sed -r 's/""https[^,]+"",//g' | sed -r 's/"=HYPERLINK\(""//g' | sed -r 's/""\)"//g' | cut -d ',' -f 1,3,5 --output-delimiter="`echo -e '\t'`" - | awk '{print($2,"\t",$1,"\t",$3)}' > $clout || die "error writing $clout"
+    grep ',Match,' $olist | sed -r 's/""https[^,]+"",//g' | sed -r 's/"=HYPERLINK\(""//g' | sed -r 's/""\)"//g' | cut -d ',' -f 1,3,5 --output-delimiter="`echo '\t'`" - | awk '{print($2,"\t",$1,"\t",$3)}' | sed -e 's/ //g' > $clout || die "error writing $clout"
 else
     die "$olist not found."
 fi
