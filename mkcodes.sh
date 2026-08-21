@@ -124,8 +124,10 @@ set -o pipefail
 
 p=`basename $0`
 
-# get environment for ADS services
-[ -z "$ADS_ENVIRONMENT" -a -x "$HOME/.adsrc" ] && eval `$HOME/.adsrc sh`
+# set environment for kubernetes containerization
+# The container image must have an abbreviated .adsrc file in /app
+
+[ "x$ADS_ENVIRONMENT" = "x" ] && [ -x "/app/.adsrc" ] && eval `/app/.adsrc sh`
 
 merge="YES"
 dorejects=

@@ -36,12 +36,13 @@ while [ $# -ne 0 ] ; do
     shift
 done
 
-# make sure we are on the right machine
-[ "x$ADS_ENVIRONMENT" = "x" ] && eval `$HOME/.adsrc sh`
-indexer="$ADS_INDEX_SERVER"
+# set environment for kubernetes containerization
+# The container image must have an abbreviated .adsrc file in /app
 
-[ "$indexer" = `uname -n` ] || \
-    warn "this script should preferentially be be run on host $indexer"
+[ "x$ADS_ENVIRONMENT" = "x" ] && [ -x "/app/.adsrc" ] && eval `/app/.adsrc sh`
+
+# We no longer limit ourselves to running on adsx, this is kubernetes-safe
+echo "The current indexer hostname is $ADS_INDEX_SERVER."
 
 if [ \( $# -lt 1 \) -o \( $# -gt 2 \) ] ; then
     echo "Usage: $script [--no-cache] [--no-codes] [--dryrun] db [master]" 1>&2

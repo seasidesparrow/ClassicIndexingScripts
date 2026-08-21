@@ -9,7 +9,10 @@ die () {
     exit 1
 }
 
-[ "x$ADS_ENVIRONMENT" = "x" ] && eval `$HOME/.adsrc sh`
+# set environment for kubernetes containerization
+# The container image must have an abbreviated .adsrc file in /app
+
+[ "x$ADS_ENVIRONMENT" = "x" ] && [ -x "/app/.adsrc" ] && eval `/app/.adsrc sh`
 
 db="$1"
 [ "x$db" = "x" ] && die "usage: $script DB"

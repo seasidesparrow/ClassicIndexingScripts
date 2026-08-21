@@ -29,8 +29,11 @@ bindir=`dirname $0` ; [ "$bindir" = "." ] && bindir=""
 # if bindir is a relative path, append current working directory
 echo "$bindir" | grep -s -q '^/' || bindir=`pwd`"/$bindir"
 
-# get environment for ADS services
-[ "x$ADS_ENVIRONMENT" = "x" ] && [ -x "$HOME/.adsrc" ] && eval `$HOME/.adsrc sh`
+# set environment for kubernetes containerization
+# The container image must have an abbreviated .adsrc file in /app
+
+[ "x$ADS_ENVIRONMENT" = "x" ] && [ -x "/app/.adsrc" ] && eval `/app/.adsrc sh`
+
 cd $ADS_ARTICLES/bitmaps || \
     die "cannot change directory to $ADS_ARTICLES/bitmaps"
 if [ -f pubtypes.list ] ; then
