@@ -47,28 +47,24 @@ laststatus="$lastdir/index.status"
 
 timestamp=`date -I -d "-1 day"`
 
-
 warn "update started"
 warn "updating dataset $dataset in dir $topdir"
 cd $topdir || die "cannot cd to $topdir"
+
+# note, LOGDIR is created by the harvester -- assume it is present
 
 LOGDIR="$topdir/log/$timestamp"; export LOGDIR
 upfile="$LOGDIR/parse.out"
 newrecs="$LOGDIR/new_records.tsv"
 
-
-[ -d $LOGDIR ] || mkdir "$LOGDIR"
-[ -d $LOGDIR ] || die "cannot create directory $LOGDIR"
-
 warn "output file is $upfile"
 warn "log dir is $LOGDIR"
 
-
 # The timeout loop is based on whether there's a parse.out.tmp file on /proj/ads
 # and will continue this check every 10 minutes until it times out after
-# three hours.
+# two hours.
 
-sleeptimeout=10800
+sleeptimeout=7200
 sleepdelay=600
 totdelay=0
 
