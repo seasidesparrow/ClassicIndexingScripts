@@ -26,6 +26,14 @@ checklog () {
     [ $w -gt 0 ] && warn "found $w warnings in log file $log"
 }
 
+# set environment for kubernetes containerization
+# The container image must have an abbreviated .adsrc file in /app
+
+[ "x$ADS_ENVIRONMENT" = "x" ] && [ -x "/app/.adsrc" ] && eval `/app/.adsrc sh`
+
+PATH="$dir:$PATH"
+export PATH
+
 bindir=`dirname $0` ; [ "$bindir" = "." ] && bindir=""
 # if bindir is a relative path, append current working directory
 echo "$bindir" | grep -s -q '^/' || bindir=`pwd`"/$bindir"
